@@ -1,0 +1,36 @@
+<% include ../partials/header %>
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            <h1>Edit <%= attraction.name %></h1>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-4">
+		<form action="/attractions/<%= attraction._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+			<div class="form-group">
+				<label>Name</label>
+				<input class="form-control" type="text" name="attraction[name]" value="<%= attraction.name %>" required autofocus>
+			</div>
+			<div class="form-group">
+            	<label>Image</label>
+				<p class="text-primary" style="font-size: 0.8rem">Please upload a new image if you want to change the original one.</p>
+                <input type="file" name="image" accept="image/*">
+            </div>
+			<div class="form-group">
+				<label>Cost</label>
+				<input class="form-control" type="number" name="attraction[cost]" value="<%= attraction.cost %>" step="0.01" min="0">
+			</div>
+			<div class="form-group">
+    			<label>Location</label>
+    			<input class="form-control" type="text" name="attraction[location]" value="<%= attraction.location %>">
+			</div>
+			<div class="form-group">
+				<label>Description</label>
+				<textarea class="form-control" rows=10 name="attraction[description]"><%= attraction.description %></textarea>
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-lg btn-primary btn-block form-control" value="Submit!">
+			</div>
+		</form>
+		<a href="/attractions">Go Back</a>
+	</div>
+</div>
+<% include ../partials/footer %>

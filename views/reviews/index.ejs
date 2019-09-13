@@ -1,0 +1,70 @@
+<% include ../partials/header %>
+<div class="row justify-content-center">
+    <div class="col-md-12 text-center">
+        <h1>Review Page: <%= attraction.name %></h1>
+    </div>
+
+    <!--Review section-->
+    <div class="card col-md-12 mb-3">
+        <div class="card-body">
+            <a href="/attractions/<%= attraction._id %>">Go back</a>
+            <div class="mb-3 text-right">
+                <a class="btn btn-md btn-success <% if (currentUser && attraction.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>" href="/attractions/<%= attraction._id %>/reviews/new">
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i> Write a new review
+                </a>
+            </div>
+            <% if (attraction.rating === 0) { %>
+                <p class="text-secondary"><strong>No reviews yet.</strong></p>
+            <% } else { %>
+                <p>
+                    <span class="fas fa-star checked"></span> 
+                    <span class="fa-star <% if (attraction.rating > 1.5) { %> fas checked <% } else { %> far unchecked <% } %>"></span>
+                    <span class="fa-star <% if (attraction.rating > 2.5) { %> fas checked <% } else { %> far unchecked <% } %>"></span>
+                    <span class="fa-star <% if (attraction.rating > 3.5) { %> fas checked <% } else { %> far unchecked <% } %>"></span>
+                    <span class="fa-star <% if (attraction.rating > 4.5) { %> fas checked <% } else { %> far unchecked <% } %>"></span>
+                        <em>(total reviews: <%= attraction.reviews.length %>)</em>
+                </p>
+                <p>
+                    Average rating: <strong><%= attraction.rating.toFixed(2) %></strong>
+                </p>
+
+                <% attraction.reviews.forEach(function(review) { %>
+                    <hr>
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <%- '<span class="fas fa-star checked"></span> '.repeat(review.rating) %><%- '<span class="far fa-star unchecked"></span> '.repeat(5 - review.rating) %>
+                        </div>
+                        <div class="review-info">
+                            <div>Review by: 
+                                <a href="/users/<%= review.author.id %>">
+                                    <strong><%= review.author.username %></strong>
+                                </a>
+                            </div>
+                            <div><em><%= review.updatedAt.toDateString() %></em></div>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="text-align: justify; word-wrap: break-word; margin-top: 10px">
+                            <%= review.text %>
+                        </p>
+                        <% if(currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
+                            <div class="text-right">
+                                <a class="btn btn-sm btn-warning"
+                               href="/attractions/<%=attraction._id %>/reviews/<%=review._id %>/edit">
+                                    <i class="far fa-edit"></i> Edit
+                                </a>
+                                <form class="delete-form" action="/attractions/<%=attraction._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                                    <button class="btn btn-sm btn-danger">
+                                        <i class="fas fa-eraser"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,35 @@
+<% include ../partials/header %>
+    <div class="row justify-content-center">
+        <div class="col-md-12 text-center">
+            <h1>Create a New Attraction</h1>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-4">
+		<form action="/attractions" method="POST" enctype="multipart/form-data">
+			<div class="form-group">
+				<label>Name</label>
+				<input class="form-control" type="text" name="attraction[name]" placeholder="Name" required autofocus>
+			</div>
+			<div class="form-group">
+            	<label>Image</label>
+                <input type="file" name="image" accept="image/*" required>
+            </div>
+			<div class="form-group">
+				<label>Cost</label>
+				<input class="form-control" type="number" name="attraction[cost]" placeholder="0.00" step="0.01" min="0">
+			</div>
+			<div class="form-group">
+    			<label>Location</label>
+    			<input class="form-control" type="text" name="attraction[location]" placeholder="Yosemite National Park, CA">
+			</div>
+			<div class="form-group">
+				<label>Description</label>
+				<textarea class="form-control" rows=10 name="attraction[description]" placeholder="Description"></textarea>
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-lg btn-primary btn-block form-control" value="Submit!">
+			</div>
+		</form>
+		<a href="/attractions">Go Back</a>
+	</div>
+</div>
+<% include ../partials/footer %>
